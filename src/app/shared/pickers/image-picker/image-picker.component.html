@@ -1,7 +1,8 @@
 <div (click)="onPickImage()">
     <div class="avatar-container">
         <!-- <img class="persona-avatar" *ngIf="imageClean != null; else igualANull" [src]="image"> -->
-        <img class="persona-avatar" [src]="[AvatarImage]">
+        <!-- <img class="persona-avatar" [src]="[AvatarImage]"> -->
+        <div class="img" [ngStyle]="{'background-image':'url('+ [AvatarImage] +')'}"></div>
         <!-- <ng-template>
             <img class="persona-avatar" [src]="'assets/img/default_user.png'">
         </ng-template> -->
