@@ -1,0 +1,20 @@
+<div (click)="onPickImage()">
+    <div class="avatar-container">
+        <!-- <img class="persona-avatar" *ngIf="imageClean != null; else igualANull" [src]="image"> -->
+        <img class="persona-avatar" [src]="[AvatarImage]">
+        <!-- <ng-template>
+            <img class="persona-avatar" [src]="'assets/img/default_user.png'">
+        </ng-template> -->
+        <input
+            type="file"
+            accept="image/jpeg"
+            *ngIf="userPicker"
+            #filePicker
+            (change)="onFileChosen($event)"
+        />
+    </div>
+
+    <div>
+        <h5 class="persona-cambiar-foto-perfil">Cambiar</h5>
+    </div>
+</div>

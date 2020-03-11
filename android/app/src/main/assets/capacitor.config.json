@@ -1,0 +1,7 @@
+{
+    "appId": "com.asomic.purasangreV2",
+    "appName": "purasangreV2",
+    "bundledWebRuntime": false,
+    "npmClient": "npm",
+    "webDir": "www"
+}

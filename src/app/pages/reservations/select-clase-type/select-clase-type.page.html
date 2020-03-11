@@ -1,0 +1,18 @@
+<app-navbar titulo="Nueva Reserva" [urltoBack]="'home/tabs/clases'"></app-navbar>
+
+<ion-content >
+    <!-- <ion-button (click)="goToAddHour()"></ion-button> -->
+    <div class="reserva">
+        <h1 class="titleReserva-section">Selecciona<br>una Clase</h1>
+
+        <div class="section grid-days">
+            <div class="item-day ion-text-center"
+                    (click)="goToDay(claseType.id)"
+                    *ngFor="let claseType of claseTypes"
+            >
+                <img src="{{ claseType.icon }}">
+                <p>{{ claseType.name }}</p>
+            </div>
+        </div>
+    </div>
+</ion-content>

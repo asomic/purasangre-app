@@ -1,0 +1,60 @@
+<section class="auth-content ion-padding">
+    <div class="auth-inner">
+        <div class="logo-auth-container">
+            <img
+                class="logo-auth"
+                src="/assets/img/ps_logo.png"
+                alt="Pura Sangre Crossfit"
+            />
+        </div>
+        <form #f="ngForm" (ngSubmit)="onSubmitLogin(f)">
+            <div class="form-inner">
+                <div class="a-input">
+                    <span class="icon-input-auth icon-auth-mail"></span>
+
+                    <input
+                        type="email"
+                        class="input-email"
+                        autocapitalize="none"
+                        placeholder="Correo"
+                        name="email"
+                        required
+                        ngModel
+                    />
+                </div>
+
+                <div class="a-input">
+                    <span class="icon-input-auth icon-auth-pass"></span>
+
+                    <input
+                        type="password"
+                        class="input-pass"
+                        placeholder="Contraseña"
+                        name="password"
+                        required
+                        ngModel
+                    />
+                </div>
+            </div>
+        <ion-col class="signup-col">
+            <button
+                class="submit-login-auth"
+                full
+                type="submit"
+                expand="block"
+            >
+                Ingresar
+            </button>
+            <br/><br/>
+            <a class="link-forget" routerLink="/forgot">
+                ¿Olvidaste tu Contraseña?
+            </a>
+        </ion-col>
+        <div class="version">
+            <p style="color: rgba(255, 255, 255, 0.7);">
+                Versión 2.0 - Asomic
+            </p>
+        </div>
+    </form>
+    </div>
+</section>

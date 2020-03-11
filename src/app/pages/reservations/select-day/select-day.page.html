@@ -1,0 +1,83 @@
+<app-navbar titulo="Nueva Reserva"></app-navbar>
+
+<ion-content >
+    <!-- <ion-button (click)="goToAddHour()"></ion-button> -->
+    <div class="reserva">
+        <h1 class="titleReserva-section">Selecciona<br>un día</h1>
+
+        <div class="section grid-days">
+
+        <div class="item-day ion-text-center"
+             (click)="goToAddHour(week[1]?.date,(week[1]?.dayHasClases))"
+             [ngClass]="{
+                 today : week[1]?.today,
+                 disabled : !(week[1]?.dayHasClases),
+                 todaydisabled : (week[1]?.today && !(week[1]?.dayHasClases))
+             }"
+        >
+            <p>{{ week[1]?.dayName }}</p>
+            <h1>{{ week[1]?.day }}</h1>
+        </div>
+
+        <div class="item-day ion-text-center"
+             (click)="goToAddHour(week[2]?.date,(week[2]?.dayHasClases))"
+             [ngClass]="{
+                 today : week[2]?.today,
+                 disabled :  !(week[2]?.dayHasClases),
+                 todaydisabled : (week[2]?.today && !(week[2]?.dayHasClases))
+             }"
+        >
+            <p>{{ week[2]?.dayName }}</p>
+            <h1>{{ week[2]?.day }}</h1>
+        </div>
+
+        <div class="item-day ion-text-center"(click)="goToAddHour(week[3]?.date,(week[3]?.dayHasClases))"
+            [ngClass]="{
+                today : week[3]?.today,
+                disabled :  !(week[3]?.dayHasClases),
+                todaydisabled : (week[3]?.today && !(week[3]?.dayHasClases))
+            }">
+            <p>{{week[3]?.dayName}}</p>
+            <h1>{{week[3]?.day}}</h1>
+        </div>
+        <div class="item-day ion-text-center"(click)="goToAddHour(week[4]?.date,(week[4]?.dayHasClases))"
+        [ngClass]="{
+            today : week[4]?.today,
+            disabled :  !(week[4]?.dayHasClases),
+            todaydisabled : (week[4]?.today && !(week[4]?.dayHasClases))
+        }">
+            <p>{{week[4]?.dayName}}</p>
+            <h1>{{week[4]?.day}}</h1>
+        </div>
+        <div class="item-day ion-text-center"(click)="goToAddHour(week[5]?.date,(week[5]?.dayHasClases))"
+        [ngClass]="{
+            today : week[5]?.today,
+            disabled :  !(week[5]?.dayHasClases),
+            todaydisabled : (week[5]?.today && !(week[5]?.dayHasClases))
+        }">
+            <p>{{week[5]?.dayName}}</p>
+            <h1>{{week[5]?.day}}</h1>
+        </div>
+        <div class="item-day ion-text-center"(click)="goToAddHour(week[6]?.date,(week[6]?.dayHasClases))"
+        [ngClass]="{
+            today : week[6]?.today,
+            disabled :  !(week[6]?.dayHasClases),
+            todaydisabled : (week[6]?.today && !(week[6]?.dayHasClases))
+        }">
+            <p>{{week[6]?.dayName}}</p>
+            <h1>{{week[6]?.day}}</h1>
+        </div>
+        <div class="item-day ion-text-center"(click)="goToAddHour(week[7]?.date,(week[7]?.dayHasClases))"
+        [ngClass]="{
+            today : week[7]?.today,
+            disabled :  !(week[7]?.dayHasClases),
+            todaydisabled : (week[7]?.today && !(week[7]?.dayHasClases))
+        }">
+            <p>{{week[7]?.dayName}}</p>
+            <h1>{{week[7]?.day}}</h1>
+        </div>
+
+        </div>
+
+    </div>
+</ion-content>

@@ -1,0 +1,186 @@
+<ion-header>
+    <ion-toolbar>
+        <div class="header-toolbar">
+            <div class="toolbar-left">
+                <div class="title font-bold">
+                    <span class="title-header">Mis Clases</span>
+                </div>
+            </div>
+
+            <div class="toolbar-right">
+                <img class="shieldLogoBN" src="assets/brand/ma_purasangre.png"/>
+            </div>
+        </div>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content >
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content 
+            pullingIcon=""
+            pullingText=""
+            refreshingSpinner="crescent"
+        >
+        </ion-refresher-content>
+    </ion-refresher>
+
+    <!-- Hoy -->
+    <div class="clases-cards-wrapper" *ngIf="todayWods.length > 0">
+        <div *ngFor="let wod of todayWods">
+            <div class="clases-cards"
+            *ngIf="!wod.rels.auth.reservationHas"
+            >
+            <!-- <div class="clases-cards" *ngIf="!wod.rels.auth.reservationHas"> -->
+                <div class="clase-card today" [routerLink]="['/', 'home', 'tabs', 'clases', 'wods', wod.identificador, 'show']"
+                
+                >
+                    <div class="ps-row ion-align-items-center">
+                        <div class="col-3 class-type">
+                            <img class="class-icon" [src]="wod.rels.claseType.iconWhite">
+                        </div>
+        
+                        <div class="col-10 class-data">
+                            <h2 style="margin-bottom: 4px; text-transform: capitalize;">
+                                {{ wod.claseType }}
+                            </h2>
+    
+                            <div *ngIf="wod.rels.auth.reservationHas">
+                                <p *ngIf="wod.rels.auth.todayReservation.status === 3">
+                                    Tuviste clase a las {{wod.rels.auth.todayReservation.start}}
+                                </p>
+    
+                                <p *ngIf="wod.rels.auth.todayReservation.status === 4">
+                                    Perdiste tu clase a las {{wod.rels.auth.todayReservation.start}}
+                                </p>
+                            </div>
+    
+                            <div *ngIf="!wod.rels.auth.reservationHas">
+                                <p>No tienes reserva de {{ wod.claseType }} para hoy</p>
+                            </div>
+                        </div>
+        
+                        <div class="col-2">
+                            <ion-icon src="assets/icon/arrow-right.svg"></ion-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="separator">
+    </div>
+
+    <!-- Sin Confirmar -->
+    <div class="section" *ngIf="pendient.length > 0">
+        <!-- <hr class="separator"> -->
+        <h1 class="title-section">Sin Confirmar</h1>
+        
+        <div class="clases-cards">
+            <div class="clase-card"
+                 *ngFor="let clase of pendient"
+                 [routerLink]="['/', 'home', 'tabs', 'clases',
+                 clase.clase_id, 'edit-confirm']"
+            >
+                <div class="ps-row ion-align-items-center">
+                    <div class="col-3 class-type">
+                        <img class="class-icon" [src]="clase.rels.claseType.icon">
+                    </div>
+                    
+                    <div class="col-10 class-data">
+                        <h2>{{ clase.dateHuman }}</h2>
+                        
+                        <p class="type-class">{{ clase.rels.claseType.name }}</p>
+                        
+                        <p>{{ clase.start }} - {{ clase.end }} hrs</p>
+                    </div>
+
+                    <div class="col-2">
+                        <ion-icon src="assets/icon/arrow-right-black.svg"></ion-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="separator">
+    </div>
+
+    <!-- Confirmadas -->
+    <div class="section" *ngIf="confirmed.length > 0">
+        <!-- <hr class="separator"> -->
+        <h1 class="title-section">Confirmadas</h1>
+        
+        <div class="clases-cards">
+            <div class="clase-card"
+                 *ngFor="let clase of confirmed"
+                 [routerLink]="['/', 'home', 'tabs', 'clases',
+                                clase.clase_id, 'edit-confirm']"
+            >
+                <div class="ps-row align-items-center">
+                    <div class="col-3 class-type">
+                        <img class="class-icon" [src]="clase.rels.claseType.icon">
+                    </div>
+
+                    <div class="col-10 class-data">
+                        <h2>{{ clase.dateHuman }}</h2>
+                        
+                        <p class="type-class">CrossFit</p>
+                        
+                        <p>{{ clase.start }} - {{ clase.end }} hrs</p>
+                    </div>
+
+                    <div class="col-2">
+                        <ion-icon src="assets/icon/arrow-right-black.svg"></ion-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="separator">
+    </div>
+
+    <div class="section">
+        <!-- <hr class="separator"> -->
+        <h1 class="title-section">Clases Anteriores</h1>
+        
+        <div class="clases-cards">
+            <div class="clase-card" 
+                 *ngFor="let clase of clases"
+                 [routerLink]="['/', 'home', 'tabs', 'clases', clase.clase_id, 'show']"
+            >
+                 <!-- (click)="goClase(clase.clase_id)" -->
+                <div class="ps-row ion-align-items-center">
+                    <div class="col-3 class-type">
+                        <img class="class-icon" [src]="clase.rels.claseType.icon">
+                    </div>
+
+                    <div class="col-10 class-data">
+                        <h2>{{ clase.dateHuman }}</h2>
+
+                        <p class="type-class">{{ clase.typeName }}</p>
+
+                        <p>{{ clase.start }} - {{ clase.end }} hrs</p>
+                    </div>
+
+                    <div class="col-2">
+                        <ion-icon src="assets/icon/arrow-right-black.svg"></ion-icon>
+                    </div>
+                </div>
+            </div>
+            <!-- <hr class="separator"> -->
+        </div>
+
+        <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMoreClases($event)">
+            <ion-infinite-scroll-content
+                loadingSpinner="crescent"
+                loadingText="Cargando clases...">
+            </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+    </div>
+
+    <ion-fab [ngClass]="buttonFixIOS" vertical="bottom" slot="fixed">
+        <div class="reservar" (click)="goToSelectClaseType()">Nueva Reserva</div>
+    </ion-fab>
+</ion-content>
+
+<ion-footer>
+    <div [ngClass]="buttonFixAndroid">
+        <button class="reservar" (click)="goToSelectClaseType()">Nueva Reserva</button>
+    </div>
+</ion-footer>

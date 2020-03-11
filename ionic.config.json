@@ -1,0 +1,8 @@
+{
+  "name": "purasangre-app-v2",
+  "integrations": {
+    "capacitor": {},
+    "cordova": {}
+  },
+  "type": "angular"
+}

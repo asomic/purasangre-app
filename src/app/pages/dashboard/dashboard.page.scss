@@ -1,0 +1,25 @@
+ion-slides {
+    width: 100%;
+    border-radius: 4px;
+    --bullet-background: rgb(27, 62, 214);
+    --bullet-background-active: #FC0F85;
+    --background: #fff;
+    background-image: none;
+    text-align: left;
+    ion-slide {
+        text-align: left;
+        padding: 0;
+        padding: 0 4px 0 2px;
+        height: auto !important;
+        width: 100%;
+        .title-section {
+            text-align: left !important;
+            width: 100%;
+            text-transform: capitalize;
+        }
+        .card-resumen {
+            width: 100%;
+            box-shadow: none;
+        }
+    }
+}

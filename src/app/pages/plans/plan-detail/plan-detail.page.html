@@ -1,0 +1,96 @@
+<app-navbar titulo="Detalle de Plan"></app-navbar>
+
+<ion-content >
+    <div class="detalle-plan">
+        <div class="section">
+            <div class="detalle-header ps-row">
+                <div class="col-9">
+                    <h2>{{ plan?.name }}</h2>
+                    <h5>{{ plan?.period }}</h5>
+                </div>
+                <div class="col-3 ion-text-end">
+                    <!-- Solo si es el plan actual -->
+                    <!-- <div class="status active">
+                        Activo
+                    </div> -->
+                </div>
+            </div>
+        </div>
+
+        <div class="separator"></div>
+
+        <div class="section data">
+            <!-- Fechas: mostrar solo al renovar -->
+            <div class="ps-row">
+                <div class="col-6 data-from">
+                    <p>
+                        <b>Inicia el</b><br>
+                        {{ dates?.start }}
+                    </p>
+                </div>
+
+                <div class="col-6 data-until">
+                    <p><b>Vencimiento el</b><br> {{ dates?.end }}</p>
+                </div>
+            </div>
+            <!-- Descripcion -->
+            <div class="data-desc" *ngIf="plan?.description; else noPlanDescription">
+                <p>
+                    <b>Descripción</b><br>
+                    {{ plan.description }}
+                </p>
+            </div>
+            <ng-template #noPlanDescription>
+                <div class="data-desc">
+                    <p>
+                        <b>Descripción</b><br>
+                        Elige un plan diseñado por el equipo PuraSangre para tu beneficio, una buena desición para estar en forma.
+                    </p>
+                </div>
+            </ng-template>
+        </div>
+
+        <div class="separator"></div>
+
+        <div class="section total ps-row wrap">
+            <div class="col-6 pretotal-item ps-row between">
+                <p>Valor del Plan</p>
+                
+                <p>${{ plan?.amount }}</p>
+            </div>
+
+            <div class="col-6 pretotal-item ps-row between">
+                <p>Comisión Pago Online</p>
+
+                <p>${{ plan?.commission }}</p>
+            </div>
+
+            <div class="col-12 total-item">
+                <p>Total</p>
+
+                <h4>${{ plan?.total }}</h4>
+            </div>
+        </div>
+    </div>
+
+    <ion-fab [ngClass]="buttonFixIOS" vertical="bottom" slot="fixed">
+        <!-- [routerLink]="['/', 'home', 'tabs', 'plans', plan?.id, 'flow']" -->
+        <div class="reservar"
+             (click)="contract(plan.id)" 
+        >
+            <span>Contratar Plan</span>
+        </div>
+    </ion-fab>
+</ion-content>
+
+<ion-footer>
+    <div [ngClass]="buttonFixAndroid">
+        <!-- [routerLink]="['/', 'home', 'tabs', 'plans', plan.id, 'flow']" -->
+        <button 
+            class="reservar"
+            (click)="contract(plan.id)" 
+        >
+            <span>Contratar Plan</span>
+        </button>
+    </div>
+</ion-footer>

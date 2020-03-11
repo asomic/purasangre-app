@@ -1,0 +1,108 @@
+<ion-header>
+    <ion-toolbar>
+        <div class="header-toolbar">
+            <div class="toolbar-left">
+                <div class="title font-bold">
+                    <span class="title-header">Mi Perfil</span>
+                </div>
+            </div>
+            <div class="toolbar-right">
+                <img class="shieldLogoBN" src="assets/brand/ma_purasangre.png">
+            </div>
+        </div>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content >
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content
+            pullingIcon=""
+            pullingText=""
+            refreshingSpinner="crescent"
+        >
+        </ion-refresher-content>
+    </ion-refresher>
+    
+    <div class="persona-card">
+        <div class="ps-row">
+            <!-- <p>Notificación<br>{{ this.mensajeToast }}</p> -->
+            <div class="ml-1 col-3 persona-item-img">
+                <app-image-picker (imagePick)="onPickImage($event)"
+                                  [AvatarImage]="[loadedProfile?.avatar]">
+                </app-image-picker>
+            </div>
+
+            <div class="col-8 ml-1 persona-item-data">
+                <h1 class="persona-nombre">{{ loadedProfile?.firstName | titlecase }} {{ loadedProfile?.lastName | titlecase }}</h1>
+                
+                <h5 class="persona-plan">{{ loadedProfile?.actualPlan }}</h5>
+                
+                <p class="persona-vencimiento">{{ loadedProfile?.actualPlanFinishDate }}</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="plan-resumen">
+        <div class="card card-info">
+            <div class="ps-row">
+                <div class="info-item col-4 ion-text-center">
+                    <div>
+                        <p class="digit">{{ loadedProfile?.clasesConsumidas }}</p>
+                        
+                        <p><b>Clases<br>Asistidas</b></p>
+                    </div>
+                </div>
+
+                <div class="info-item col-4 ion-text-center">
+                    <div>
+                        <p class="digit">{{ loadedProfile?.clasesTotales }}</p>
+                        
+                        <p><b>Clases<br>Restantes</b></p>
+                    </div>
+                </div>
+
+                <div class="info-item col-4 ion-text-center">
+                    <div>
+                        <p class="digit">{{ loadedProfile?.clasesPerdidas }}</p>
+                        
+                        <p><b>Clases<br>Perdidas</b></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <div class="card-datos">
+            <h1 class="title-section">Datos</h1>
+            
+            <div class="datos-item">
+                <h5>Correo</h5>
+                
+                <p>{{ loadedProfile?.email }}</p>
+            </div>
+            
+            <div class="datos-item">
+                <h5>Nacimiento</h5>
+
+                <p>{{ loadedProfile?.birthdate | date: 'dd/MM/yyyy' }}</p>
+            </div>
+          
+            <div class="datos-item">
+                <h5>Dirección</h5>
+                <p>{{ loadedProfile?.address }}</p>
+            </div>
+        </div>
+
+        <div class="wrap-logout">
+            <!-- <button class="button-tutorial" (click)="goToHistorial()">Historial de Pagos</button> -->
+            <button class="button-tutorial" (click)="tutorial()">Ver Tutorial</button>
+          
+            <button class="button-logout" (click)="onLogout()">Cerrar Sesión</button>
+        </div>
+    </div>
+
+    <div class="section">
+        <!-- <p *ngFor="let alert of alerts ">{{ alert }}</p> -->
+    </div>
+</ion-content>

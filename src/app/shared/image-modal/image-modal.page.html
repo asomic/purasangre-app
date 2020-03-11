@@ -1,0 +1,19 @@
+<ion-content class="image-container">
+    <ion-slides #slider [options]="sliderOpts">
+        <ion-slide>
+            <ion-card style="background: rgb(255,255,255);">
+                <ion-card-header>
+                    <ion-card-title>
+                        <p class="the-user">{{ user }}</p>
+                    </ion-card-title>
+                </ion-card-header>
+                
+                <ion-card-content>
+                      <img [src]="img"/>
+                </ion-card-content>
+            </ion-card>
+        </ion-slide>
+    </ion-slides>
+    <div class="layer-blur">
+    </div>
+</ion-content>

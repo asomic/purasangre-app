@@ -1,0 +1,29 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start" *ngIf="this.titulo !== 'Dashboard'">
+            <ion-back-button mode="md" [defaultHref]="urltoBack"></ion-back-button> 
+            <!-- <ion-icon src="assets/icon/arrow-back.svg" (click)="goBackUrl()"></ion-icon> -->
+            <!-- <button (click)="goBackUrl()" src="assets/icon/arrow-back.svg"></button> -->
+        </ion-buttons>
+
+        <div class="header-toolbar">
+            <div class="toolbar-left">
+                <div class="title font-bold ion-align-self-center" *ngIf="this.titulo == 'Dashboard'; else normalTitle">
+                    <img class="logo" src="assets/img/logo.png" alt="PuraSangre CrossFit">
+                </div>
+
+                <ng-template #normalTitle>
+                    <div class="title font-bold">
+                        <span class="title-header">{{ this.titulo }}</span>
+                    </div>
+                </ng-template>
+            </div>
+            <div class="toolbar-right">
+                <!-- <div *ngIf="this.titulo == 'Dashboard'" class="button-header" (click)="goToPerfil()">
+                <img [src]="this.avatar" style="width: 34px; border-radius: 60px; margin-top: 3px;">
+                </div> -->
+                <img class="shield" src="assets/brand/ma_purasangre.png">
+            </div>
+        </div>
+    </ion-toolbar>
+</ion-header>

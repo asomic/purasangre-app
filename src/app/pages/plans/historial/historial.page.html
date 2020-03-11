@@ -1,0 +1,45 @@
+<app-navbar titulo="Historial de Pagos"></app-navbar>
+
+<ion-content >
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content
+            pullingIcon=""
+            pullingText=""
+            refreshingSpinner="crescent"
+        >
+        </ion-refresher-content>
+    </ion-refresher>
+
+    <div class="section">
+        <div class="card card-resumen no-shadow" *ngIf="plans.length == 0">
+            <div class="text-box-resumen">                    
+                <p class="center">Aquí se mostrará el historial de tus planes contratados.</p>
+            </div>
+        </div>
+
+        <div class="card-pago" *ngFor="let plan of plans">
+            <div class="ps-row pago-up">
+                <div class="col-8">
+                    <h2>{{ plan?.inicio }}</h2>
+
+                    <h5>{{ plan?.plan_name }}</h5>
+                </div>
+                <div class="col-4 ion-text-end">
+                    <img class="icon-check" src="assets/icon/check.png" />
+                </div>
+            </div>
+            <div class="ps-row pago-bottom ion-align-items-end">
+                <div class="col-8">
+                    <p>
+                        <b>Pagado el</b><br/>
+                        {{ plan?.rels?.bill.date }}<br/>
+                        {{ plan?.rels?.bill.method }}
+                    </p>
+                </div>
+                <div class="col-4 ion-text-end">
+                    <h4>{{ plan?.rels?.bill.amount }}</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</ion-content>

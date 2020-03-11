@@ -1,0 +1,47 @@
+<section class="auth-content ion-padding">
+    <div class="auth-inner">
+        <div class="logo-auth-container">
+            <img class="logo-auth"
+                 src="assets/img/ps_logo.png"
+                 alt="Pura Sangre Crossfit"
+            />
+        </div>
+        <form (ngSubmit)="sendForgot()" #registerForm="ngForm">
+            <div class="form-inner">
+                <div class="a-input">
+                    <p class="texto-forgot">
+                        Ingresa tu correo para poder restablecer tu contraseña
+                    </p>
+
+                    <span class="icon-input-auth icon-auth-mail"></span>
+                    
+                    <input
+                        type="text"
+                        autocapitalize="none"
+                        class="input-email"
+                        placeholder="Correo"
+                        name="email"
+                        [(ngModel)]="registerCredentials.email"
+                        required
+                    />
+                </div>
+            </div>
+            <ion-col class="signup-col">
+                <button
+                    class="submit-login-auth"
+                    full
+                    type="submit"
+                    expand="block"
+                >
+                    Enviar
+                </button>
+
+                <br /><br />
+
+                <a class="link-forget" routerLink="/auth">
+                    Volver
+                </a>
+            </ion-col>
+        </form>
+    </div>
+</section>

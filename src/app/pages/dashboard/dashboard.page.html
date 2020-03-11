@@ -1,0 +1,106 @@
+<ion-header>
+    <ion-toolbar>
+        <div class="header-toolbar">
+            <div class="toolbar-left">
+                <div class="title font-bold ion-align-self-center">
+                    <img class="logo" src="assets/img/logo.png" alt="PuraSangre CrossFit">
+                </div>
+            </div>
+            <div class="toolbar-right">
+                <img class="shieldLogoBN" src="assets/brand/ma_purasangre.png">
+            </div>
+        </div>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content
+            pullingIcon=""
+            pullingText=""
+            refreshingSpinner="crescent"
+        >
+        </ion-refresher-content>
+    </ion-refresher>
+
+    <div class="alerts-wrapper"
+         *ngIf="alerts.has_confirmation || alerts.has_backend_notification"
+    >
+        <div class="card card-alert card-alert-reserva"
+             *ngIf="alerts.has_confirmation"
+             (click)="goToEditConfirm(alerts.confirmation.clase_id)"
+        >
+            <div class="ps-row">
+                <div class="col-2 icon">
+                    <ion-icon src="/assets/icon/calendar.svg"></ion-icon>
+                </div>
+
+                <div class="col-10 text">
+                    <p>
+                        Tienes una clase reservada a las {{ alerts.confirmation.start }}
+                        ¡Confírma tu asistencia!
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div *ngIf="alerts?.has_backend_notification">
+            <div class="card card-alert card-alert-info"  *ngFor="let bn of alerts.backend_notification" >
+    
+                <div class="ps-row">
+                    <div class="col-2 icon">
+                        <ion-icon src="/assets/icon/info.svg"></ion-icon>
+                    </div>
+
+                    <div class="col-10 text">
+                        <p [innerHTML]="bn.message"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+    <div class="section wod-resumen">
+        <div *ngIf="wods.length === 0" class="wod-slide">
+            <div class="card-header">
+                <h1 class="title-section">Workout de Hoy</h1>
+            </div>
+            <div class="card card-resumen no-shadow">
+                <div class="text-box-resumen">                    
+                    <p class="center">No hay entrenamientos registrados para hoy.</p>
+                </div>
+            </div>
+        </div>
+
+        <ion-slides pager="true" *ngIf="wods.length > 0">
+            <ion-slide *ngFor="let wod of wods" class="wod-slide">
+                <div class="card-header">
+                    <h1 class="title-section">{{ wod.claseType }}</h1>
+                </div>
+
+                <div class="card card-resumen mb-3">
+                    <div class="text-box-resumen" *ngIf="wod.rels.hasStages">
+                        <p *ngFor="let stage of wod.rels.stages as key">
+                            <b class="mb-2">{{ stage.name }}</b><br/>
+                            {{ stage.description }}
+                        </p>
+                    </div>
+                </div>
+            </ion-slide>
+        </ion-slides>
+    </div>
+
+    <div class="section">
+        <h1 class="title-section">Mi Asistencia</h1>
+
+        <div class="card card-asistencia">
+            <canvas #barCanvas></canvas>
+            <!-- <canvas baseChart
+                [datasets]="lineChartData"
+                [labels]="lineChartLabels"
+                chartType="line"
+                [options]="lineChartOptions">
+            </canvas> -->
+        </div>
+    </div>
+</ion-content>
