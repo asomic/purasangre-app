@@ -81,20 +81,21 @@
                 </div>
             </div> -->
             <div class="content">
-                <div class="ps-row item-crossfiters" *ngFor="let reservation of reservations" >
-                    <div class="col-2 item-img" 
-                        ion-button ion-long-press 
-                        [ngClass]="{ 'image-pressed': varIsPressed }"
-                        [interval]="200"
-                        (click)="clicked()"
-                        (pressed)="varIsPressed = true"
-                        (pressEnded)="varIsPressed = false"
-                        (longPressed)="beingLongPressed(
-                            reservation?.rels.user.avatar,
-                            reservation?.rels.user.first_name,
-                            reservation?.rels.user.last_name
-                        )"
-                        (pressEnded)="finishLongPress()">
+                <div class="ps-row item-crossfiters" *ngFor="let reservation of reservations"
+                     ion-button ion-long-press 
+                     [ngClass]="{ 'image-pressed': varIsPressed }"
+                     [interval]="50"
+                     (click)="clicked()"
+                     (pressed)="varIsPressed = true"
+                     (pressEnded)="varIsPressed = false"
+                     (longPressed)="beingLongPressed(
+                        reservation?.rels.user.avatar,
+                        reservation?.rels.user.first_name,
+                        reservation?.rels.user.last_name
+                    )"
+                    (pressEnded)="finishLongPress()"
+                >
+                    <div class="col-2 item-img" >
                         <div class="item-img-inner"
                             [ngStyle]="{'background-image':'url('+  reservation?.rels.user.avatar  +')'}">
                         </div>
