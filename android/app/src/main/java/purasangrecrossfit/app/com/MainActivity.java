@@ -1,4 +1,4 @@
-package com.asomic.purasangreV2;
+package purasangrecrossfit.app.com;
 
 import android.os.Bundle;
 
