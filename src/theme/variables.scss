@@ -1062,7 +1062,7 @@ ion-content {
         }
         .item-img {
           img {
-            border-radius: 30px;
+            // border-radius: 30px;
           }
         }
         .item-data {
@@ -1388,8 +1388,27 @@ ion-content {
           margin-bottom: 0;
         }
         .item-img {
+          width: 37px;
+          height: 37px;
+          // background: black;
+          // background: linear-gradient(108.4deg, #FC0F85 6.69%, #9300AB 88.08%);
+          border-radius: 100%;
+          .item-img-inner {
+            border-radius: 100%;
+            background-color: black;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            width: 100%;
+            height: 100%;
+            opacity: 1;
+            transition: all ease .2s;
+            // &:hover {
+            //   opacity: 0.5;
+            // }
+          }
           img {
-            border-radius: 30px;
+            // border-radius: 30px;
           }
         }
         .item-data {
