@@ -320,11 +320,11 @@ export class ProfilePage {
     //     // this.authService.logout();
     // }
 
-    tutorial() {
-        // this.firebase.logEvent('view_tutorial', {content_type: 'page_view', item_id: 'view_tutorial'});
+    // tutorial() {
+    //     // this.firebase.logEvent('view_tutorial', {content_type: 'page_view', item_id: 'view_tutorial'});
 
-        this.router.navigateByUrl('/tutorial');
-    }
+    //     this.router.navigateByUrl('/tutorial');
+    // }
 
     goToHistorial() {
         this.router.navigate(['/home/pay-historial']);
