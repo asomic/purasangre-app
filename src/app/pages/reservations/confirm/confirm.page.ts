@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { Component } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Storage } from '@ionic/storage';
 import { ModalController, ToastController  } from '@ionic/angular';
 
 import { Plugins } from '@capacitor/core';
@@ -16,6 +15,7 @@ import { Plugins } from '@capacitor/core';
   styleUrls: ['./confirm.page.scss'],
 })
 export class ConfirmPage {
+    claseId: any;
     buttonIcon: any;
     title: any;
     message: any;
@@ -28,7 +28,9 @@ export class ConfirmPage {
                   private http: HttpClient,
                   private router: Router,
                   public toastController: ToastController
-               ) {}
+               ) {
+        //  console.log(this.message, this.claseId);
+               }
 
     async presentToast(message: string) {
         const toast = await this.toastController.create({
@@ -38,7 +40,7 @@ export class ConfirmPage {
         toast.present();
     }
 
-    reserve(id: string ) {
+    reserve( id: string ) {
         this.disabled = true;
         Plugins.Storage.get({ key: 'authData' }).then((authData) => {
             const parsedData = JSON.parse(authData.value) as {

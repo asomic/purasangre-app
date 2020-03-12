@@ -6,32 +6,32 @@
 
         <p>{{ message }}</p>
 
-        <button [disabled]="disabled" 
+        <button [disabled]="disabled"
                 class="confirm-modal-button"
                 *ngIf="this.buttonActionAdd"
-                ion-button block 
+                ion-button block
                 (click)="reserve(this.claseId)"
         >
             Ok
         </button
         >
-        <button [disabled]="disabled" 
+        <button [disabled]="disabled"
                 class="confirm-modal-button"
                 *ngIf="this.buttonActionRemove"
-                ion-button block 
+                ion-button block
                 (click)="remove(this.claseId)">
             Ok
         </button>
         <!-- <button class="confirm-modal-button" *ngIf="this.buttonActionEdit" ion-button block (click)="edit(this.claseId)">Ok</button> -->
         <button [disabled]="disabled"
-                class="confirm-modal-button" 
-                *ngIf="this.buttonActionConfirm" 
-                ion-button block 
+                class="confirm-modal-button"
+                *ngIf="this.buttonActionConfirm"
+                ion-button block
                 (click)="confirm(this.claseId)">
             Ok
         </button>
-        <button ion-button block 
-                class="confirm-modal-button confirm-modal-button-cancel" 
+        <button ion-button block
+                class="confirm-modal-button confirm-modal-button-cancel"
                 (click)="dismiss()">
             Cancelar
         </button>

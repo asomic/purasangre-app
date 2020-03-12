@@ -1,8 +1,8 @@
 {
-  "name": "purasangre-app-v2",
+  "name": "purasangre-app",
   "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "author": "asomic",
+  "homepage": "https://asomic.com",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

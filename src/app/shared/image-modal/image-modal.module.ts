@@ -23,6 +23,5 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     SharedModule
   ],
-  declarations: [ImageModalPage]
 })
 export class ImageModalPageModule {}

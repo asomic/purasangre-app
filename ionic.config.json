@@ -1,5 +1,5 @@
 {
-  "name": "purasangre-app-v2",
+  "name": "purasangre",
   "integrations": {
     "capacitor": {},
     "cordova": {}
