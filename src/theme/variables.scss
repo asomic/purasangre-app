@@ -1697,13 +1697,14 @@ ion-toast {
 
 .version {
   position: absolute;
-  bottom: 20px;
+  bottom: 24px;
   left: 0;
   right: 0;
-  p {
-    text-align: center;
-    color: rgba(white, 0.8);
-    font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    width: 80px;
   }
 }
 
