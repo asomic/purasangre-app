@@ -29,7 +29,7 @@ export class ConfirmPage {
                   private router: Router,
                   public toastController: ToastController
                ) {
-        //  console.log(this.message, this.claseId);
+            //  console.log(this.message, this.claseId);
                }
 
     async presentToast(message: string) {
