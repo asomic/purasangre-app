@@ -53,7 +53,7 @@
                 <h5>Crossfiters en esta Clase</h5>
             </div>
             
-            <div class="content">
+            <!-- <div class="content">
                 <div class="item-crossfiters ps-row" *ngFor="let reservation of reservations">
                     <div class="col-2 item-img">
                         <img src="{{ reservation?.rels.user.avatar }}" 
@@ -76,6 +76,34 @@
                         <h6>{{ reservation?.rels.user.first_name }}
                             {{ reservation?.rels.user.last_name }}</h6>
 
+                        <p>{{ reservation?.status }}</p>
+                    </div>
+                </div>
+            </div> -->
+            <div class="content">
+                <div class="ps-row item-crossfiters" *ngFor="let reservation of reservations" >
+                    <div class="col-2 item-img" 
+                        ion-button ion-long-press 
+                        [ngClass]="{ 'image-pressed': varIsPressed }"
+                        [interval]="200"
+                        (click)="clicked()"
+                        (pressed)="varIsPressed = true"
+                        (pressEnded)="varIsPressed = false"
+                        (longPressed)="beingLongPressed(
+                            reservation?.rels.user.avatar,
+                            reservation?.rels.user.first_name,
+                            reservation?.rels.user.last_name
+                        )"
+                        (pressEnded)="finishLongPress()">
+                        <div class="item-img-inner"
+                            [ngStyle]="{'background-image':'url('+  reservation?.rels.user.avatar  +')'}">
+                        </div>
+                    </div>
+                    <div class="col-10 item-data">
+                        <h6>
+                            {{ reservation?.rels.user.first_name }} {{ reservation?.rels.user.last_name }}
+                        </h6>
+                        
                         <p>{{ reservation?.status }}</p>
                     </div>
                 </div>
