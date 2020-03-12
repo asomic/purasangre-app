@@ -1,35 +1,43 @@
 {
   "project_info": {
-    "project_number": "860158054443",
-    "firebase_url": "https://purasangrev2.firebaseio.com",
-    "project_id": "purasangrev2",
-    "storage_bucket": "purasangrev2.appspot.com"
+    "project_number": "74713033262",
+    "firebase_url": "https://pura-sangre-crossfit.firebaseio.com",
+    "project_id": "pura-sangre-crossfit",
+    "storage_bucket": "pura-sangre-crossfit.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:860158054443:android:7d7c99c19e09b2ba99da6e",
+        "mobilesdk_app_id": "1:74713033262:android:1d09bfc12e3095c5",
         "android_client_info": {
-          "package_name": "com.asomic.purasangreV2"
+          "package_name": "purasangrecrossfit.app.com"
         }
       },
       "oauth_client": [
         {
-          "client_id": "860158054443-t8sjn1fod03rm4ncgkujds1juvvt8vji.apps.googleusercontent.com",
+          "client_id": "74713033262-ibra4jojernl2bc6v3obt7hjs76os2od.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDnlYsevfa8bOo4F98bmAzf2jH_75I1-y8"
+          "current_key": "AIzaSyA8ialMFBcgz1m3cgCl3LjT3MRmwo4loDw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "860158054443-t8sjn1fod03rm4ncgkujds1juvvt8vji.apps.googleusercontent.com",
+              "client_id": "74713033262-ibra4jojernl2bc6v3obt7hjs76os2od.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "74713033262-s6qfjt79h56fr9kahdparm85f3ubqkq0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.asomic.purasangre",
+                "app_store_id": "1447657358"
+              }
             }
           ]
         }
