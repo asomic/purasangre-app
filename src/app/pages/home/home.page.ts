@@ -1,10 +1,11 @@
 import { environment } from '../../../environments/environment';
 
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { trigger, state, style, animate, transition, AnimationStyleMetadata } from '@angular/animations';
 
-import { ModalController, AlertController } from '@ionic/angular';
+import { ModalController, AlertController, Platform } from '@ionic/angular';
 
 import {
     Plugins, PushNotificationToken,
@@ -34,11 +35,17 @@ export class HomePage implements OnInit {
     statusConnection = true;
     public animationState = 'invisible'; // Or Enum with visible/invisible.
 
-    constructor(public modalController: ModalController,
-                private alertCtrl: AlertController,
-                private http: HttpClient) { }
+    constructor(
+        public modalController: ModalController,
+        private alertCtrl: AlertController,
+        private http: HttpClient,
+        public platform: Platform,
+        private location: Location,
+
+        ) { }
 
     ngOnInit() {
+        this.backButtonEvent();
         this.checkConnection();
         // console.log('i´m here at the home page');
 
@@ -143,4 +150,15 @@ export class HomePage implements OnInit {
             }
         });
     }
+
+    backButtonEvent(): void {
+        const sub = this.platform.backButton.subscribeWithPriority(9999, () => {
+          if(this.location.isCurrentPathEqualTo('/home/tabs/dashboard') || this.location.isCurrentPathEqualTo(''))
+          {
+            navigator['app'].exitApp();
+          } else {
+            this.location.back();
+          }
+        });
+      }
 }

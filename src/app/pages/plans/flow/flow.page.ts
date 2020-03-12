@@ -66,9 +66,7 @@ export class FlowPage implements OnInit {
                             if (this.platform.is('android')) {
                                 const browser = this.iab.create(
                                     flowresult.url, '_blank',
-                                    `hideurlbar=yes,footer=no,toolbarcolor=#141A29,
-                                    navigationbuttoncolor=#D3D5E0,closebuttoncaption=cerrar,
-                                    closebuttoncolor=#D3D5E0`
+                                    "hideurlbar=yes,footer=no,toolbarcolor=#0396B6,navigationbuttoncolor=#FFFFFF,closebuttoncaption=cerrar,closebuttoncolor=#FFFFFF"
                                 );
 
                                 browser.on('loadstop').subscribe((event) => {
@@ -88,9 +86,7 @@ export class FlowPage implements OnInit {
                                 const browser = this.iab.create(
                                     flowresult.url,
                                     '_blank',
-                                    `toolbarposition=top,closebuttoncaption=Cerrar,
-                                    toolbarcolor=#141A29,closebuttoncolor=#D3D5E0,
-                                    navigationbuttoncolor=#D3D5E0`
+                                    "toolbarposition=top,closebuttoncaption=Cerrar,toolbarcolor=#0396B6,closebuttoncolor=#FFFFFF,navigationbuttoncolor=#FFFFFF"
                                 );
 
                                 browser.on('loadstop').subscribe((event) => {
