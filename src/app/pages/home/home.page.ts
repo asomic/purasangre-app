@@ -62,28 +62,8 @@ export class HomePage implements OnInit {
             token = data.value;
           });
         // Register with Apple / Google to receive push via APNS/FCM
-        PushNotifications.register().then(() => console.log('registrado'));
-        //pushNotificationReceived
-        PushNotifications.addListener(
-            'pushNotificationReceived',
-            (notification: PushNotification) => {
-              console.log('notification ' + JSON.stringify(notification));
-              console.log('pushNotificationReceived');
-              this.notifications.push(notification);
-             // this.presentToast(notification.title,notification.body,notification.data.moredata);
-              this.pushToast(notification.title,notification.body);
-            }
-          );
-        
-        PushNotifications.addListener('pushNotificationActionPerformed', 
-        (notification: PushNotificationActionPerformed) => {
-                console.log('PushNotificationActionPerformed');
-                console.log(notification);
-                this.pushToast(notification.notification.title,notification.notification.body);
-                
-            }
-        );  
-        if(fcm){
+        PushNotifications.register().then(() => {
+
             fcm.getToken().then(
                 result=> {
                   let remoteToken = result.token;
@@ -115,7 +95,36 @@ export class HomePage implements OnInit {
               console.log('que chucha!!!!');
               console.log(err);
             });
-        }
+
+        });
+        //pushNotificationReceived
+        PushNotifications.addListener(
+            'pushNotificationReceived',
+            (notification: PushNotification) => {
+              console.log('notification ' + JSON.stringify(notification));
+              console.log('pushNotificationReceived');
+              this.notifications.push(notification);
+              this.pushToast(notification.title,notification.body);
+            }
+          );
+        
+        PushNotifications.addListener('pushNotificationActionPerformed', 
+        (   notification: PushNotificationActionPerformed) => {
+                console.log('notification ' + JSON.stringify(notification));
+                console.log('PushNotificationActionPerformed');
+                console.log(notification);
+                console.log('lista');
+                console.log(this.notifications);
+                this.notifications.forEach(not => {
+                    //this.pushToast(notification.notification.title,notification.notification.body);
+                    this.pushToast(not.title,not.body);
+                })
+                
+                
+            }
+        );  
+
+        
 
 
         // On success, we should be able to receive notifications
