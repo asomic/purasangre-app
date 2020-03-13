@@ -5,15 +5,19 @@ import { Location } from '@angular/common';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { trigger, state, style, animate, transition, AnimationStyleMetadata } from '@angular/animations';
 
-import { ModalController, AlertController, Platform } from '@ionic/angular';
+import { ModalController, AlertController, Platform, ToastController } from '@ionic/angular';
+import { FCM } from "capacitor-fcm";
 
 import {
-    Plugins, PushNotificationToken,
-    PushNotification, PushNotificationActionPerformed
+    Plugins,
+    PushNotificationToken,
+    PushNotification,
+    PushNotificationActionPerformed
 } from '@capacitor/core';
 
 
 const { PushNotifications } = Plugins;
+const fcm = new FCM();
 
 @Component({
     selector: 'app-home',
@@ -34,100 +38,195 @@ const { PushNotifications } = Plugins;
 export class HomePage implements OnInit {
     statusConnection = true;
     public animationState = 'invisible'; // Or Enum with visible/invisible.
-
+    hasNotifications:boolean;
+    notifications: PushNotification[] = [];
     constructor(
         public modalController: ModalController,
         private alertCtrl: AlertController,
         private http: HttpClient,
         public platform: Platform,
         private location: Location,
+        private toastCtl: ToastController
 
         ) { }
-
+    
     ngOnInit() {
         this.backButtonEvent();
         this.checkConnection();
+        let token:any; 
         // console.log('i´m here at the home page');
 
         console.log('Initializing HomePage');
-
+        PushNotifications.addListener('registration', data => {
+            console.log('hola este es mi fcm: '+data.value);
+            token = data.value;
+          });
         // Register with Apple / Google to receive push via APNS/FCM
-        PushNotifications.register();
+        PushNotifications.register().then(() => console.log('registrado'));
+        //pushNotificationReceived
+        PushNotifications.addListener(
+            'pushNotificationReceived',
+            (notification: PushNotification) => {
+              console.log('notification ' + JSON.stringify(notification));
+              console.log('pushNotificationReceived');
+              this.notifications.push(notification);
+             // this.presentToast(notification.title,notification.body,notification.data.moredata);
+              this.pushToast(notification.title,notification.body);
+            }
+          );
+        
+        PushNotifications.addListener('pushNotificationActionPerformed', 
+        (notification: PushNotificationActionPerformed) => {
+                console.log('PushNotificationActionPerformed');
+                console.log(notification);
+                this.pushToast(notification.notification.title,notification.notification.body);
+                
+            }
+        );  
+        if(fcm){
+            fcm.getToken().then(
+                result=> {
+                  let remoteToken = result.token;
+                  console.log('ahora si po puto: '+remoteToken);
+                  Plugins.Storage.get({key: 'authData'}).then((authData) => {
+                      const parsedData = JSON.parse(authData.value) as { token: string };
+                      const httpOptions = {
+                          headers: new HttpHeaders({
+                              Authorization: `Bearer ${parsedData.token}` // updated
+                          })
+  
+                      };
+                  this.http.post(`${environment.SERVER_URL}/fcm/token/`,
+                                 { fcmtoken: remoteToken },
+                                 httpOptions
+                      ).subscribe((result: any) => {
+                              console.log('success to post token');
+                          },
+                          (err) => {
+                              console.log('error to post token');
+  
+                              console.log(err);
+                          }
+                      );
+  
+                  });
+                }
+            ).catch(err => {
+              console.log('que chucha!!!!');
+              console.log(err);
+            });
+        }
+
 
         // On success, we should be able to receive notifications
-        PushNotifications.addListener('registration', (token: PushNotificationToken) => {
-            const pushToken = token.value;
-            Plugins.Storage.get({key: 'authData'}).then((authData) => {
+        // PushNotifications.addListener('registration', (token: PushNotificationToken) => {
+        //     const pushToken = token.value;
+        //     Plugins.Storage.get({key: 'authData'}).then((authData) => {
 
-                const parsedData = JSON.parse(authData.value) as { token: string };
+        //         const parsedData = JSON.parse(authData.value) as { token: string };
 
-                const httpOptions = {
-                    headers: new HttpHeaders({
-                        Authorization: `Bearer ${parsedData.token}` // updated
-                    })
-                };
+        //         const httpOptions = {
+        //             headers: new HttpHeaders({
+        //                 Authorization: `Bearer ${parsedData.token}` // updated
+        //             })
+        //         };
 
-                this.http.post(`${environment.SERVER_URL}/fcm/token/`,
-                               { fcmtoken: pushToken },
-                               httpOptions
-                ).subscribe((result: any) => {
-                        console.log('success to post token');
-                    },
-                    (err) => {
-                        console.log('error to post token');
+        //         this.http.post(`${environment.SERVER_URL}/fcm/token/`,
+        //                        { fcmtoken: pushToken },
+        //                        httpOptions
+        //         ).subscribe((result: any) => {
+        //                 console.log('success to post token');
+        //             },
+        //             (err) => {
+        //                 console.log('error to post token');
 
-                        console.log(err);
-                    }
-                );
-            });
+        //                 console.log(err);
+        //             }
+        //         );
+        //     });
 
-            console.log('Push registration success, token: ' + token.value);
-        });
+        //     console.log('Push registration success, token: ' + token.value);
+        // });
 
         // Some issue with our setup and push will not work
-        PushNotifications.addListener('registrationError', (error: any) => {
-            alert('Error on registration: ' + JSON.stringify(error));
-        });
-
+        // PushNotifications.addListener('registrationError', (error: any) => {
+        //     alert('Error on registration: ' + JSON.stringify(error));
+        // });
         // Show us the notification payload if the app is open on our device
-        PushNotifications.addListener(
-            'pushNotificationReceived', (notification: PushNotification
-        ) => {
-            console.log('pushNotificationReceived: ' + JSON.stringify(notification));
-        });
+        // PushNotifications.addListener('pushNotificationReceived', 
+        // (notification: PushNotification) => {
+        //     console.log('pushNotificationReceived');
+        //     console.log(notification);
+        //     this.pushToast(notification.title,notification.body);
+        // }
+        // );
+
+        // // Method called when tapping on a notification
+        // PushNotifications.addListener('pushNotificationActionPerformed', 
+        // (notification: PushNotificationActionPerformed) => {
+        //     console.log('PushNotificationActionPerformed');
+        //     console.log(notification);
+            
+        // }
+        // );
+        // Show us the notification payload if the app is open on our device
+        // PushNotifications.addListener(
+        //     'pushNotificationReceived', (notification: PushNotification
+        // ) => {
+        //     console.log('pushNotificationReceived: ' + JSON.stringify(notification));
+        // });
 
         // Method called when tapping on a notification
-        PushNotifications.addListener('pushNotificationActionPerformed',
-            (notification: PushNotificationActionPerformed) => {
-                const header: any = notification.notification.data.title || 'Notificación';
-                const message: any = notification.notification.data.body;
+        // PushNotifications.addListener('pushNotificationActionPerformed',
+        //     (notification: PushNotificationActionPerformed) => {
+        //         const header: any = notification.notification.data.title || 'Notificación';
+        //         const message: any = notification.notification.data.body;
 
-                const data: any = notification.notification.data;
+        //         const data: any = notification.notification.data;
+        //         console.log('notificacion');
+        //         console.log(notification);
 
-                console.log('data');
-                console.log(data);
+        //         console.log('data');
+        //         console.log(data);
 
-                console.log('data title');
-                console.log(data.title);
+        //         console.log('data title');
+        //         console.log(data.title);
 
-                console.log('data body');
-                console.log(data.body);
+        //         console.log('data body');
+        //         console.log(data.body);
 
-                console.log('header: ' + header, 'message: ' + message);
+        //         console.log('header: ' + header, 'message: ' + message);
 
-                if (message) {
-                    this.alertCtrl.create({ header, message, buttons: ['Entendido']})
-                        .then(alertEl => alertEl.present());
-                }
+        //         if (message) {
+        //             this.alertCtrl.create({ header, message, buttons: ['Entendido']})
+        //                 .then(alertEl => alertEl.present());
+        //         }
 
-                console.log('Notification data title');
-                console.log(notification.notification.data.title);
+        //         console.log('Notification data title');
+        //         console.log(notification.notification.data.title);
 
-                console.log('Notification data body');
-                console.log(notification.notification.data.body);
-            }
-        );
+        //         console.log('Notification data body');
+        //         console.log(notification.notification.data.body);
+        //     }
+        // );
     }
+
+    async pushToast(title:any,message:any) {
+        const toast = await this.toastCtl.create({
+          header: title,
+          message: message,
+          buttons: [
+            {
+              text: 'Cerrar',
+              role: 'cancel',
+              handler: () => {
+               
+              }
+            }
+          ]
+        });
+        toast.present();
+      }
 
     /**
      * Keep listen for status connection change,
