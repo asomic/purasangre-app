@@ -122,7 +122,7 @@ export class HomePage implements OnInit {
                 console.log('PushNotificationActionPerformed');
                 console.log('titulo');
                 console.log(notification);
-                console.log(notification.inputValue);
+                console.log(notification.inputValue.valueOf);
                 console.log(notification.actionId);
                 console.log(notification.notification);
                 console.log('lista');
