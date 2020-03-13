@@ -101,20 +101,33 @@ export class HomePage implements OnInit {
         PushNotifications.addListener(
             'pushNotificationReceived',
             (notification: PushNotification) => {
-              console.log('notification ' + JSON.stringify(notification));
+              console.log('notification recived' + JSON.stringify(notification));
               console.log('pushNotificationReceived');
+              alert('Push action performed: ' + JSON.stringify(notification));
               this.notifications.push(notification);
+              console.log(this.notifications);
               this.pushToast(notification.title,notification.body);
             }
           );
+
+        // PushNotifications.getDeliveredNotifications().then(result =>{
+        //     console.log('getDeliveredNotifications');
+        //     console.log(result);
+        //    // this.notifications.push(result);
+        // });  
         
         PushNotifications.addListener('pushNotificationActionPerformed', 
-        (   notification: PushNotificationActionPerformed) => {
-                console.log('notification ' + JSON.stringify(notification));
+        (   notification ) => {
+                console.log('notification performed tap ' + JSON.stringify(notification));
                 console.log('PushNotificationActionPerformed');
+                console.log('titulo');
                 console.log(notification);
+                console.log(notification.inputValue);
+                console.log(notification.actionId);
+                console.log(notification.notification);
                 console.log('lista');
                 console.log(this.notifications);
+                alert('Push action performed: ' + JSON.stringify(notification.notification));
                 this.notifications.forEach(not => {
                     //this.pushToast(notification.notification.title,notification.notification.body);
                     this.pushToast(not.title,not.body);
