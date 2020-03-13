@@ -1053,17 +1053,19 @@ ion-content {
       }
     }
     .content {
-      // padding: 14px 14px 16px;
-      padding-left: 4px;
-      .item-crossfiters {
-        margin-bottom: 14px;
+        // padding: 14px 14px 16px;
+        padding-left: 4px;
+        .item-crossfiters {
+            align-items: center;
+            margin-bottom: 16px;
         &:last-child {
           margin-bottom: 0;
         }
         .item-img {
-          img {
-            // border-radius: 30px;
-          }
+            width: 44px;
+            height: 44px;
+            margin-right: 4px;
+            img { }
         }
         .item-data {
           padding-left: 10px;
@@ -1383,13 +1385,15 @@ ion-content {
       // padding: 14px 14px 16px;
       padding-left: 4px;
       .item-crossfiters {
-        margin-bottom: 14px;
+          align-items: center;
+        margin-bottom: 16px;
         &:last-child {
           margin-bottom: 0;
         }
         .item-img {
-          width: 37px;
-          height: 37px;
+          width: 44px;
+          height: 44px;
+          margin-right: 4px;
           // background: black;
           // background: linear-gradient(108.4deg, #FC0F85 6.69%, #9300AB 88.08%);
           border-radius: 100%;
