@@ -1,6 +1,6 @@
 export const environment = {
     production: true,
-    SERVER_URL: 'http://api3.purasangrecrossfit.cl',
+    SERVER_URL: 'https://api3.purasangrecrossfit.cl',
     //SERVER_URL: 'https://devapi.purasangrecrossfit.cl',
 
     // SERVER_URL: 'http://purasangre-api.test',

@@ -97,18 +97,62 @@ export class HomePage implements OnInit {
             });
 
         });
-        //pushNotificationReceived
+        // Show us the notification payload if the app is open on our device
         PushNotifications.addListener(
-            'pushNotificationReceived',
-            (notification: PushNotification) => {
-              console.log('notification recived' + JSON.stringify(notification));
-              console.log('pushNotificationReceived');
-              alert('Push action performed: ' + JSON.stringify(notification));
-              this.notifications.push(notification);
-              console.log(this.notifications);
-              this.pushToast(notification.title,notification.body);
+            'pushNotificationReceived', (notification: PushNotification
+        ) => {
+            console.log('pushNotificationReceived: ' + JSON.stringify(notification));
+            const header: any = notification.title;
+            const message: any = notification.body;
+            this.alertCtrl.create({ header, message, buttons: ['Entendido']})
+            .then(alertEl => alertEl.present());
+        });
+        
+        // Method called when tapping on a notification
+        PushNotifications.addListener('pushNotificationActionPerformed',
+            (notification: PushNotificationActionPerformed) => {
+
+                const data: any = notification.notification.data;
+
+                
+                console.log('data');
+                console.log(data);
+                console.log('data message');
+                console.log(data.message);
+                const parsed: any = JSON.parse(notification.notification.data.message);
+                const header: any = parsed.title || 'Notificación';
+                const message: any =  parsed.body
+                console.log(JSON.parse(data.message));
+
+                console.log('data title');
+                console.log(header);
+                console.log('data body');
+                console.log(message);
+                console.log('header: ' + header, 'message: ' + message);
+                if (message) {
+                    this.alertCtrl.create({ header, message, buttons: ['Entendido']})
+                        .then(alertEl => alertEl.present());
+                }
+
+                console.log('Notification data title');
+                console.log(notification.notification.data.title);
+
+                console.log('Notification data body');
+                console.log(notification.notification.data.body);
             }
-          );
+        );
+        //pushNotificationReceived
+        // PushNotifications.addListener(
+        //     'pushNotificationReceived',
+        //     (notification: PushNotification) => {
+        //       console.log('notification recived' + JSON.stringify(notification));
+        //       console.log('pushNotificationReceived');
+        //       alert('Push action performed: ' + JSON.stringify(notification));
+        //       this.notifications.push(notification);
+        //       console.log(this.notifications);
+        //       this.pushToast(notification.title,notification.body);
+        //     }
+        //   );
 
         // PushNotifications.getDeliveredNotifications().then(result =>{
         //     console.log('getDeliveredNotifications');
@@ -116,26 +160,26 @@ export class HomePage implements OnInit {
         //    // this.notifications.push(result);
         // });  
         
-        PushNotifications.addListener('pushNotificationActionPerformed', 
-        (   notification ) => {
-                console.log('notification performed tap ' + JSON.stringify(notification));
-                console.log('PushNotificationActionPerformed');
-                console.log('titulo');
-                console.log(notification);
-                console.log(notification.inputValue.valueOf);
-                console.log(notification.actionId);
-                console.log(notification.notification);
-                console.log('lista');
-                console.log(this.notifications);
-                alert('Push action performed: ' + JSON.stringify(notification.notification));
-                this.notifications.forEach(not => {
-                    //this.pushToast(notification.notification.title,notification.notification.body);
-                    this.pushToast(not.title,not.body);
-                })
+        // PushNotifications.addListener('pushNotificationActionPerformed', 
+        // (   notification ) => {
+        //         console.log('notification performed tap ' + JSON.stringify(notification));
+        //         console.log('PushNotificationActionPerformed');
+        //         console.log('titulo');
+        //         console.log(notification);
+        //         console.log(notification.inputValue.valueOf);
+        //         console.log(notification.actionId);
+        //         console.log(notification.notification);
+        //         console.log('lista');
+        //         console.log(this.notifications);
+        //         alert('Push action performed: ' + JSON.stringify(notification.notification));
+        //         this.notifications.forEach(not => {
+        //             //this.pushToast(notification.notification.title,notification.notification.body);
+        //             this.pushToast(not.title,not.body);
+        //         })
                 
                 
-            }
-        );  
+        //     }
+        // );  
 
         
 
