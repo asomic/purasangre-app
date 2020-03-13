@@ -14,7 +14,8 @@ def capacitor_pods
   # Do not delete
 end
 
-target 'App' do
+target 'Pura Sangre CrossFit' do
   capacitor_pods
   # Add your Pods here
+  pod 'Firebase'
 end
