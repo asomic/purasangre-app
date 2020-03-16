@@ -99,7 +99,11 @@ const routes: Routes = [
         path: '',
         redirectTo: '/home/tabs/dashboard',
         pathMatch: 'full'
-    },
+    },  {
+    path: 'alert-push-modal',
+    loadChildren: () => import('./modals/alert-push-modal/alert-push-modal.module').then( m => m.AlertPushModalPageModule)
+  },
+
 ];
 
 @NgModule({

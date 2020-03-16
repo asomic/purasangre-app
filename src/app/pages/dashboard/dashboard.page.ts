@@ -9,6 +9,8 @@ import { Plugins } from '@capacitor/core';
 import { Label } from 'ng2-charts';
 import { ChartDataSets, ChartOptions, Chart } from 'chart.js';
 
+import { ModalController } from '@ionic/angular';
+
 import { AuthService } from '../auth/auth.service';
 
 @Component({
@@ -40,6 +42,7 @@ export class DashboardPage {
         private http: HttpClient,
         // private firebase: Firebase,
         private authService: AuthService,
+        private modalController: ModalController
     ) { }
 
     public lineChartData: ChartDataSets[] = [
@@ -174,6 +177,7 @@ export class DashboardPage {
         // });
         this.router.navigate(['/home/wods/' + id]);
     }
+
 }
 
   //     this.http.get(`${environment.SERVER_URL}/profile`, httpOptions)

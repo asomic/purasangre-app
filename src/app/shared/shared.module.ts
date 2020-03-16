@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ImagePickerComponent } from './pickers/image-picker/image-picker.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { ImagePickerComponent } from './pickers/image-picker/image-picker.component';
 
 @NgModule({
     declarations: [ ImagePickerComponent, NavbarComponent ],
     imports: [ CommonModule, IonicModule ],
-    exports: [ ImagePickerComponent, NavbarComponent ]
+    exports: [ImagePickerComponent, NavbarComponent ]
 })
 export class SharedModule { }

@@ -28,9 +28,7 @@ export class ConfirmPage {
                   private http: HttpClient,
                   private router: Router,
                   public toastController: ToastController
-               ) {
-            //  console.log(this.message, this.claseId);
-               }
+               ) { }
 
     async presentToast(message: string) {
         const toast = await this.toastController.create({

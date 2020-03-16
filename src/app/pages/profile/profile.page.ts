@@ -288,7 +288,7 @@ export class ProfilePage {
     async onLogout() {
         const alert = await this.alertCtrl.create({
             header: 'Cerrar Sesión',
-            message: 'Desea salir de Purasangre?',
+            message: 'Desea salir de Pura Sangre App?',
             buttons: [
             {
                 text: 'Cancelar',

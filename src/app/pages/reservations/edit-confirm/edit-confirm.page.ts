@@ -125,8 +125,6 @@ export class EditConfirmPage {
                 infiniteScrollEvent.target.complete();
             }
         );
-            // this.days = this.days.concat(response.data.data);
-            //  event.target.complete();
     }
 
     async openModal() {
@@ -142,9 +140,7 @@ export class EditConfirmPage {
             },
             cssClass: 'modal-confirm'
         });
-        // this.title = modal.componentProps.title;
-        // this.message = modal.componentProps.message;
-        // this.buttonIcon = modal.componentProps.buttonIcon;
+
         return await modal.present();
     }
 
@@ -161,9 +157,6 @@ export class EditConfirmPage {
             },
             cssClass: 'modal-confirm'
         });
-        // this.title = modal.componentProps.title;
-        // this.message = modal.componentProps.message;
-        // this.buttonIcon = modal.componentProps.buttonIcon;
         return await modal.present();
     }
 
@@ -171,48 +164,21 @@ export class EditConfirmPage {
         this.router.navigate( [`/home/edit-hour/${date}`] );
     }
 
-    /**
-     * Open Modal for Image Avatar view
-     *
-     * img, firstName, lastName
-     */
-    beingLongPressed(img, firstName, lastName) {
-        // console.log('beingLongPressed');
-        if (!this.haymodal) {
-            this.modalController.create({
-                component: ImageModalPage,
-                componentProps: { img, firstName, lastName },
-                cssClass: 'background-color-modal',
-                enterAnimation: myEnterAnimation,
-                leaveAnimation: myLeaveAnimation
-            }).then(modal => {
-                this.actualModal = modal;
-                this.haymodal = true;
-                modal.present();
-            });
-        }
-    }
+    async imageClick(avatar) {
+        const imgurl = avatar;
+        const modal = await this.modalController.create({
+            component: ImageModalPage,
+            componentProps: {
+                title: 'imagen',
+                img: imgurl,
+            },
+            cssClass: 'modal-confirm'
+        });
+        modal.onDidDismiss().then(data => {
+            console.log('cerre image modal');
+            console.log(data);
+        });
 
-    /**
-     * Close Modal for Image Avatar view, and return color to icon image avatar
-     *
-     * img, firstName, lastName
-     */
-    finishLongPress() {
-        if (this.haymodal) {
-            this.actualModal.dismiss().then(() => {
-                this.actualModal = null;
-                this.haymodal = false;
-                this.varIsPressed = false;
-            });
-        }
-    }
-
-    clicked() {
-        this.varIsPressed = true;
-        setTimeout(() => {
-            this.varIsPressed = false;
-        }, 500);
-        // setInterval(() => { console.log('hola'); }, 4000);
+        return await modal.present();
     }
 }

@@ -1,12 +1,13 @@
 import { environment } from '../../../environments/environment';
 
-import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { trigger, state, style, animate, transition, AnimationStyleMetadata } from '@angular/animations';
+import { trigger, state, style, animate, transition } from '@angular/animations';
+
+import { FCM } from 'capacitor-fcm';
 
 import { ModalController, AlertController, Platform, ToastController } from '@ionic/angular';
-import { FCM } from "capacitor-fcm";
 
 import {
     Plugins,
@@ -14,6 +15,8 @@ import {
     PushNotification,
     PushNotificationActionPerformed
 } from '@capacitor/core';
+
+import { AlertPushModalPage } from './modals/alert-push-modal/alert-push-modal.page';
 
 
 const { PushNotifications } = Plugins;
@@ -38,7 +41,7 @@ const fcm = new FCM();
 export class HomePage implements OnInit {
     statusConnection = true;
     public animationState = 'invisible'; // Or Enum with visible/invisible.
-    hasNotifications:boolean;
+    hasNotifications: boolean;
     notifications: PushNotification[] = [];
     constructor(
         public modalController: ModalController,
@@ -49,46 +52,46 @@ export class HomePage implements OnInit {
         private toastCtl: ToastController
 
         ) { }
-    
+
     ngOnInit() {
         this.backButtonEvent();
         this.checkConnection();
-        let token:any; 
+        let token: any;
         // console.log('i´m here at the home page');
 
         console.log('Initializing HomePage');
         PushNotifications.addListener('registration', data => {
-            console.log('hola este es mi fcm: '+data.value);
+            console.log('hola este es mi fcm: ' + data.value);
             token = data.value;
           });
         // Register with Apple / Google to receive push via APNS/FCM
         PushNotifications.register().then(() => {
 
             fcm.getToken().then(
-                result=> {
-                  let remoteToken = result.token;
-                  console.log('ahora si po puto: '+remoteToken);
-                  Plugins.Storage.get({key: 'authData'}).then((authData) => {
-                      const parsedData = JSON.parse(authData.value) as { token: string };
-                      const httpOptions = {
+                result => {
+                    const remoteToken = result.token;
+                    console.log('ahora si po puto: ' + remoteToken);
+                    Plugins.Storage.get({key: 'authData'}).then((authData) => {
+                        const parsedData = JSON.parse(authData.value) as { token: string };
+                        const httpOptions = {
                           headers: new HttpHeaders({
                               Authorization: `Bearer ${parsedData.token}` // updated
                           })
-  
-                      };
-                  this.http.post(`${environment.SERVER_URL}/fcm/token/`,
+                        };
+
+                        this.http.post(`${environment.SERVER_URL}/fcm/token/`,
                                  { fcmtoken: remoteToken },
                                  httpOptions
-                      ).subscribe((result: any) => {
+                        ).subscribe(() => {
                               console.log('success to post token');
                           },
                           (err) => {
                               console.log('error to post token');
-  
+
                               console.log(err);
                           }
                       );
-  
+
                   });
                 }
             ).catch(err => {
@@ -107,21 +110,21 @@ export class HomePage implements OnInit {
             this.alertCtrl.create({ header, message, buttons: ['Entendido']})
             .then(alertEl => alertEl.present());
         });
-        
+
         // Method called when tapping on a notification
         PushNotifications.addListener('pushNotificationActionPerformed',
             (notification: PushNotificationActionPerformed) => {
 
                 const data: any = notification.notification.data;
 
-                
+
                 console.log('data');
                 console.log(data);
                 console.log('data message');
                 console.log(data.message);
                 const parsed: any = JSON.parse(notification.notification.data.message);
                 const header: any = parsed.title || 'Notificación';
-                const message: any =  parsed.body
+                const message: any = parsed.body;
                 console.log(JSON.parse(data.message));
 
                 console.log('data title');
@@ -130,8 +133,9 @@ export class HomePage implements OnInit {
                 console.log(message);
                 console.log('header: ' + header, 'message: ' + message);
                 if (message) {
-                    this.alertCtrl.create({ header, message, buttons: ['Entendido']})
-                        .then(alertEl => alertEl.present());
+                    this.openModal(header, message);
+                    // this.alertCtrl.create({ header, message, buttons: ['Entendido']})
+                    //     .then(alertEl => alertEl.present());
                 }
 
                 console.log('Notification data title');
@@ -141,7 +145,8 @@ export class HomePage implements OnInit {
                 console.log(notification.notification.data.body);
             }
         );
-        //pushNotificationReceived
+
+        // pushNotificationReceived
         // PushNotifications.addListener(
         //     'pushNotificationReceived',
         //     (notification: PushNotification) => {
@@ -158,9 +163,9 @@ export class HomePage implements OnInit {
         //     console.log('getDeliveredNotifications');
         //     console.log(result);
         //    // this.notifications.push(result);
-        // });  
-        
-        // PushNotifications.addListener('pushNotificationActionPerformed', 
+        // });
+
+        // PushNotifications.addListener('pushNotificationActionPerformed',
         // (   notification ) => {
         //         console.log('notification performed tap ' + JSON.stringify(notification));
         //         console.log('PushNotificationActionPerformed');
@@ -176,12 +181,12 @@ export class HomePage implements OnInit {
         //             //this.pushToast(notification.notification.title,notification.notification.body);
         //             this.pushToast(not.title,not.body);
         //         })
-                
-                
-        //     }
-        // );  
 
-        
+
+        //     }
+        // );
+
+
 
 
         // On success, we should be able to receive notifications
@@ -219,7 +224,7 @@ export class HomePage implements OnInit {
         //     alert('Error on registration: ' + JSON.stringify(error));
         // });
         // Show us the notification payload if the app is open on our device
-        // PushNotifications.addListener('pushNotificationReceived', 
+        // PushNotifications.addListener('pushNotificationReceived',
         // (notification: PushNotification) => {
         //     console.log('pushNotificationReceived');
         //     console.log(notification);
@@ -228,11 +233,11 @@ export class HomePage implements OnInit {
         // );
 
         // // Method called when tapping on a notification
-        // PushNotifications.addListener('pushNotificationActionPerformed', 
+        // PushNotifications.addListener('pushNotificationActionPerformed',
         // (notification: PushNotificationActionPerformed) => {
         //     console.log('PushNotificationActionPerformed');
         //     console.log(notification);
-            
+
         // }
         // );
         // Show us the notification payload if the app is open on our device
@@ -277,16 +282,16 @@ export class HomePage implements OnInit {
         // );
     }
 
-    async pushToast(title:any,message:any) {
+    async pushToast(title: any, message: any) {
         const toast = await this.toastCtl.create({
           header: title,
-          message: message,
+          message,
           buttons: [
             {
               text: 'Cerrar',
               role: 'cancel',
               handler: () => {
-               
+
               }
             }
           ]
@@ -318,12 +323,32 @@ export class HomePage implements OnInit {
 
     backButtonEvent(): void {
         const sub = this.platform.backButton.subscribeWithPriority(9999, () => {
-          if(this.location.isCurrentPathEqualTo('/home/tabs/dashboard') || this.location.isCurrentPathEqualTo(''))
-          {
-            navigator['app'].exitApp();
-          } else {
-            this.location.back();
-          }
+            if (this.location.isCurrentPathEqualTo('/home/tabs/dashboard') ||
+                this.location.isCurrentPathEqualTo('')) {
+                navigator['app'].exitApp();
+            } else {
+                this.location.back();
+            }
         });
-      }
+    }
+
+    /**
+     *  [openModal description]
+     *
+     *  @param   string  Push notification title
+     *  @param   string  Push notification body
+     *
+     *  @return  Modal
+     */
+    async openModal(title: string, body: string) {
+        const modal = await this.modalController.create({
+            component: AlertPushModalPage,
+            componentProps: {
+                title, body, buttonIcon: '/assets/icon/info.svg',
+            },
+            cssClass: 'modal-confirm'
+        });
+
+        return await modal.present();
+    }
 }
