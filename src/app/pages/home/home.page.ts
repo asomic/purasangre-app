@@ -107,8 +107,9 @@ export class HomePage implements OnInit {
             console.log('pushNotificationReceived: ' + JSON.stringify(notification));
             const header: any = notification.title;
             const message: any = notification.body;
-            this.alertCtrl.create({ header, message, buttons: ['Entendido']})
-            .then(alertEl => alertEl.present());
+            this.openModal(header, message);
+            //this.alertCtrl.create({ header, message, buttons: ['Entendido']})
+            //.then(alertEl => alertEl.present());
         });
 
         // Method called when tapping on a notification
