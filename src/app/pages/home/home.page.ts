@@ -115,7 +115,8 @@ export class HomePage implements OnInit {
         // Method called when tapping on a notification
         PushNotifications.addListener('pushNotificationActionPerformed',
             (notification: PushNotificationActionPerformed) => {
-
+                alert(notification);
+                
                 const data: any = notification.notification.data;
 
 
@@ -124,6 +125,7 @@ export class HomePage implements OnInit {
                 console.log('data message');
                 console.log(data.message);
                 const parsed: any = JSON.parse(notification.notification.data.message);
+                alert(parsed);
                 const header: any = parsed.title || 'Notificación';
                 const message: any = parsed.body;
                 console.log(JSON.parse(data.message));
