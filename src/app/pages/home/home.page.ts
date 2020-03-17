@@ -115,35 +115,30 @@ export class HomePage implements OnInit {
         // Method called when tapping on a notification
         PushNotifications.addListener('pushNotificationActionPerformed',
             (notification: PushNotificationActionPerformed) => {
-
+                
+               // alert('hola 1'+JSON.parse(notification.notification.data));
+                
                 const data: any = notification.notification.data;
-
-
                 console.log('data');
                 console.log(data);
-                console.log('data message');
-                console.log(data.message);
-                const parsed: any = JSON.parse(notification.notification.data.message);
-                const header: any = parsed.title || 'Notificación';
-                const message: any = parsed.body;
-                console.log(JSON.parse(data.message));
-
                 console.log('data title');
-                console.log(header);
+                console.log(data.title);
                 console.log('data body');
-                console.log(message);
-                console.log('header: ' + header, 'message: ' + message);
+                console.log(data.body);
+            //     const parsed: any = JSON.parse(notification.notification.data.message);
+            //    // alert(parsed);
+            //     const header: any = parsed.title || 'Notificación';
+            //     const message: any = parsed.body;
+                // console.log(JSON.parse(data.message));
 
-                this.openModal(header, message);
-                // this.alertCtrl.create({ header, message, buttons: ['Entendido']})
-                //     .then(alertEl => alertEl.present());
+                // console.log('data title');
+                // console.log(header);
+                // console.log('data body');
+                // console.log(message);
+                // console.log('header: ' + header, 'message: ' + message);
 
+                this.openModal(data.title, data.body);
 
-                console.log('Notification data title');
-                console.log(notification.notification.data.title);
-
-                console.log('Notification data body');
-                console.log(notification.notification.data.body);
             }
         );
 
