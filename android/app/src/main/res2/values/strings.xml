@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<resources>
-    <string name="app_name">purasangre</string>
-    <string name="title_activity_main">purasangre</string>
-    <string name="package_name">purasangrecrossfit.app.com</string>
-    <string name="custom_url_scheme">purasangrecrossfit.app.com</string>
-</resources>
