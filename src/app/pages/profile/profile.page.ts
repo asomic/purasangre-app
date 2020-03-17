@@ -244,9 +244,15 @@ export class ProfilePage {
                 avatar,
                 httpOptions
             ).subscribe((result: any) => {
-                    this.presentToast('datos actualizados con éxito');
+                    
+                    
+                   let profileServiceSub = this.profileService.fetchProfile().subscribe( result => {
+                        this.presentToast('datos actualizados con éxito');
+                        this.ionViewWillEnter();
+                        profileServiceSub.unsubscribe();
+                    });
+                    
 
-                    this.ionViewWillEnter();
                 },
                 err => {
                     console.log(err);
