@@ -60,87 +60,132 @@ export class HomePage implements OnInit {
         // console.log('i´m here at the home page');
 
         console.log('Initializing HomePage');
-        PushNotifications.addListener('registration', data => {
-            console.log('hola este es mi fcm: ' + data.value);
-            token = data.value;
-          });
-        // Register with Apple / Google to receive push via APNS/FCM
-        PushNotifications.register().then(() => {
 
-            fcm.getToken().then(
-                result => {
-                    const remoteToken = result.token;
-                    console.log('ahora si po puto: ' + remoteToken);
-                    Plugins.Storage.get({key: 'authData'}).then((authData) => {
-                        const parsedData = JSON.parse(authData.value) as { token: string };
-                        const httpOptions = {
-                          headers: new HttpHeaders({
-                              Authorization: `Bearer ${parsedData.token}` // updated
-                          })
-                        };
+        // Request permission to use push notifications
+        // iOS will prompt user and return if they granted permission or not
+        // Android will just grant without prompting
+        PushNotifications.requestPermission().then( result => {
+            if (result.granted) {
+                PushNotifications.register();
+            } else {
 
-                        this.http.post(`${environment.SERVER_URL}/fcm/token/`,
-                                 { fcmtoken: remoteToken },
-                                 httpOptions
-                        ).subscribe(() => {
-                              console.log('success to post token');
-                          },
-                          (err) => {
-                              console.log('error to post token');
+            }
+        } )
 
-                              console.log(err);
-                          }
-                      );
+        // On success, we should be able to receive notifications
+        PushNotifications.addListener('registration', 
+            (token: PushNotificationToken) => {
+                console.log('Push registration exitoso, token: ' + token.value);
+            }
+        );
 
-                  });
-                }
-            ).catch(err => {
-              console.log('que chucha!!!!');
-              console.log(err);
-            });
+        // Some issue with our setup and push will not work
+        PushNotifications.addListener('registrationError',
+            (error: any) => {
+                console.log('Error al registrarse: ' + JSON.stringify(error));
+            }
+        );
 
-        });
         // Show us the notification payload if the app is open on our device
-        PushNotifications.addListener(
-            'pushNotificationReceived', (notification: PushNotification
-        ) => {
-            console.log('pushNotificationReceived: ' + JSON.stringify(notification));
-            const header: any = notification.title;
-            const message: any = notification.body;
-            this.openModal(header, message);
-            //this.alertCtrl.create({ header, message, buttons: ['Entendido']})
-            //.then(alertEl => alertEl.present());
-        });
+        PushNotifications.addListener('pushNotificationReceived',
+            (notification: PushNotification) => {
+                console.log('Push recibido: ' + JSON.stringify(notification));
+                alert('Push received: ' + JSON.stringify(notification));
+                const header: any = notification.title;
+                const message: any = notification.body;
+                this.openModal(header, message);
+            }
+        );
 
         // Method called when tapping on a notification
         PushNotifications.addListener('pushNotificationActionPerformed',
             (notification: PushNotificationActionPerformed) => {
-                
-               // alert('hola 1'+JSON.parse(notification.notification.data));
-                
+                console.log('Push action performed: ' + JSON.stringify(notification));
+                alert('Push action performed: ' + JSON.stringify(notification));
                 const data: any = notification.notification.data;
-                console.log('data');
                 console.log(data);
-                console.log('data title');
-                console.log(data.title);
-                console.log('data body');
-                console.log(data.body);
-            //     const parsed: any = JSON.parse(notification.notification.data.message);
-            //    // alert(parsed);
-            //     const header: any = parsed.title || 'Notificación';
-            //     const message: any = parsed.body;
-                // console.log(JSON.parse(data.message));
-
-                // console.log('data title');
-                // console.log(header);
-                // console.log('data body');
-                // console.log(message);
-                // console.log('header: ' + header, 'message: ' + message);
-
                 this.openModal(data.title, data.body);
-
             }
         );
+
+
+        // PushNotifications.register().then(() => {
+
+        //     fcm.getToken().then(
+        //         result => {
+        //             const remoteToken = result.token;
+        //             console.log('ahora si po puto: ' + remoteToken);
+        //             Plugins.Storage.get({key: 'authData'}).then((authData) => {
+        //                 const parsedData = JSON.parse(authData.value) as { token: string };
+        //                 const httpOptions = {
+        //                   headers: new HttpHeaders({
+        //                       Authorization: `Bearer ${parsedData.token}` // updated
+        //                   })
+        //                 };
+
+        //                 this.http.post(`${environment.SERVER_URL}/fcm/token/`,
+        //                          { fcmtoken: remoteToken },
+        //                          httpOptions
+        //                 ).subscribe(() => {
+        //                       console.log('success to post token');
+        //                   },
+        //                   (err) => {
+        //                       console.log('error to post token');
+
+        //                       console.log(err);
+        //                   }
+        //               );
+
+        //           });
+        //         }
+        //     ).catch(err => {
+        //       console.log('que chucha!!!!');
+        //       console.log(err);
+        //     });
+
+        // });
+
+        // Show us the notification payload if the app is open on our device
+        // PushNotifications.addListener(
+        //     'pushNotificationReceived', (notification: PushNotification
+        // ) => {
+        //     console.log('pushNotificationReceived: ' + JSON.stringify(notification));
+        //     const header: any = notification.title;
+        //     const message: any = notification.body;
+        //     this.openModal(header, message);
+        //     //this.alertCtrl.create({ header, message, buttons: ['Entendido']})
+        //     //.then(alertEl => alertEl.present());
+        // });
+
+        // Method called when tapping on a notification
+        // PushNotifications.addListener('pushNotificationActionPerformed',
+        //     (notification: PushNotificationActionPerformed) => {
+                
+        //        // alert('hola 1'+JSON.parse(notification.notification.data));
+                
+        //         const data: any = notification.notification.data;
+        //         console.log('data');
+        //         console.log(data);
+        //         console.log('data title');
+        //         console.log(data.title);
+        //         console.log('data body');
+        //         console.log(data.body);
+        //     //     const parsed: any = JSON.parse(notification.notification.data.message);
+        //     //    // alert(parsed);
+        //     //     const header: any = parsed.title || 'Notificación';
+        //     //     const message: any = parsed.body;
+        //         // console.log(JSON.parse(data.message));
+
+        //         // console.log('data title');
+        //         // console.log(header);
+        //         // console.log('data body');
+        //         // console.log(message);
+        //         // console.log('header: ' + header, 'message: ' + message);
+
+        //         this.openModal(data.title, data.body);
+
+        //     }
+        // );
 
      
 
