@@ -13,7 +13,8 @@ import {
     Plugins,
     PushNotificationToken,
     PushNotification,
-    PushNotificationActionPerformed
+    PushNotificationActionPerformed,
+    Capacitor
 } from '@capacitor/core';
 
 import { AlertPushModalPage } from './modals/alert-push-modal/alert-push-modal.page';
@@ -29,11 +30,8 @@ const fcm = new FCM();
     animations: [
         trigger('animation', [
             state('invisible', style({ height: '0px', 'padding-top': '0', 'padding-bottom': '0'})),
-
             state('visible', style({ height: '*', 'padding-top': '*', 'padding-bottom': '*'})),
-
             transition('invisible => visible', animate('0.2s')),
-
             transition('visible => invisible', animate('0.3s 1.5s'))
         ])
     ],
@@ -51,15 +49,22 @@ export class HomePage implements OnInit {
         private location: Location,
         private toastCtl: ToastController
 
-        ) { }
+    ) { }
 
+    
     ngOnInit() {
         this.backButtonEvent();
         this.checkConnection();
         let token: any;
         // console.log('i´m here at the home page');
-
-        console.log('Initializing HomePage');
+        
+        console.log('Inicializando Home');
+        
+        // initPush() {
+        //     if (Capacitor.platform !== 'web') {
+        //         this.registerPush();
+        //     }
+        // }
 
         // Request permission to use push notifications
         // iOS will prompt user and return if they granted permission or not
@@ -73,38 +78,42 @@ export class HomePage implements OnInit {
         } )
 
         // On success, we should be able to receive notifications
-        PushNotifications.addListener('registration', 
+        PushNotifications.addListener(
+            'registration', 
             (token: PushNotificationToken) => {
                 console.log('Push registration exitoso, token: ' + token.value);
             }
         );
 
         // Some issue with our setup and push will not work
-        PushNotifications.addListener('registrationError',
+        PushNotifications.addListener(
+            'registrationError',
             (error: any) => {
                 console.log('Error al registrarse: ' + JSON.stringify(error));
             }
         );
 
         // Show us the notification payload if the app is open on our device
-        PushNotifications.addListener('pushNotificationReceived',
+        PushNotifications.addListener(
+            'pushNotificationReceived',
             (notification: PushNotification) => {
                 console.log('Push recibido: ' + JSON.stringify(notification));
-                alert('Push received: ' + JSON.stringify(notification));
-                const header: any = notification.title;
-                const message: any = notification.body;
-                this.openModal(header, message);
+                // alert('Push received: ' + JSON.stringify(notification));
+                // const header: any = notification.title;
+                // const message: any = notification.body;
+                // this.openModal(header, message);
             }
         );
 
         // Method called when tapping on a notification
-        PushNotifications.addListener('pushNotificationActionPerformed',
+        PushNotifications.addListener(
+            'pushNotificationActionPerformed',
             (notification: PushNotificationActionPerformed) => {
                 console.log('Push action performed: ' + JSON.stringify(notification));
-                alert('Push action performed: ' + JSON.stringify(notification));
-                const data: any = notification.notification.data;
-                console.log(data);
-                this.openModal(data.title, data.body);
+                // alert('Push action performed: ' + JSON.stringify(notification));
+                // const data: any = notification.notification.data;
+                // console.log(data);
+                // this.openModal(data.title, data.body);
             }
         );
     }
