@@ -78,7 +78,24 @@ export class HomePage implements OnInit {
       // On success, we should be able to receive notifications
       PushNotifications.addListener('registration',
         (token: PushNotificationToken) => {
-          alert('Push registration success, token: ' + token.value);
+          // alert('Push registration success, token: ' + token.value);
+          console.log('Push registration success, token: ' + token.value);
+            Plugins.Storage.get({key: 'authData'}).then((authData) => {
+                const parsedData = JSON.parse(authData.value) as { token: string };
+                const httpOptions = {
+                  headers: new HttpHeaders({
+                      Authorization: `Bearer ${parsedData.token}` // updated
+                  })
+                };
+                this.http.post(`${environment.SERVER_URL}/fcm/token/`,{ fcmtoken: token.value }, httpOptions).subscribe(() => {
+                              console.log('success to post token');
+                          },
+                          (err) => {
+                              console.log('error to post token');
+                              console.log(err);
+                          }
+                      );
+              });
         }
       );
   
@@ -92,7 +109,11 @@ export class HomePage implements OnInit {
       // Show us the notification payload if the app is open on our device
       PushNotifications.addListener('pushNotificationReceived',
         (notification: PushNotification) => {
-          alert('Push received: ' + JSON.stringify(notification));
+          // alert('Push received: ' + JSON.stringify(notification));
+          console.log('pushNotificationReceived: ' + JSON.stringify(notification));
+          const header: any = notification.title;
+          const message: any = notification.body;
+          this.openModal(header, message);
         }
       );
   
@@ -100,6 +121,14 @@ export class HomePage implements OnInit {
       PushNotifications.addListener('pushNotificationActionPerformed',
         (notification: PushNotificationActionPerformed) => {
           alert('Push action performed: ' + JSON.stringify(notification));
+                const data: any = notification.notification.data;
+                console.log('data');
+                console.log(data);
+                console.log('data title');
+                console.log(data.title);
+                console.log('data body');
+                console.log(data.body);
+                this.openModal(data.title, data.body);
         }
       );
         // PushNotifications.addListener('registration', data => {
